@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Outreach playbook | More Than a Meal</title>
+  <meta name="description" content="Internal outreach playbook for the More Than a Meal team.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Fraunces:opsz,wght,SOFT@9..144,400..800,0..100&display=swap">
+  <link rel="stylesheet" href="../css/style.css?v=5">
+  <style>
+    /* Styles for this page only */
+    .pb-intro { max-width: 40rem; }
+    .pb-list { padding-left: 1.25rem; margin: 0 0 var(--space-4); }
+    .pb-list li { margin-bottom: var(--space-3); }
+    .pb-list li:last-child { margin-bottom: 0; }
+    .pb-who { display: block; font-size: var(--text-sm); color: var(--color-ink-soft); margin-top: var(--space-1); }
+    .pb-stack { display: grid; gap: var(--space-5); }
+    .pb-panel { padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-paper); box-shadow: var(--shadow-card); }
+    .pb-panel__title { font-size: var(--text-lg); margin: 0 0 var(--space-3); color: var(--color-herb); }
+    .pb-panel p { margin: 0 0 var(--space-3); }
+    .pb-panel p:last-child { margin-bottom: 0; }
+    .pb-label { font-weight: 650; }
+    .pb-partners li { margin-bottom: var(--space-4); }
+    .pb-partners span { display: block; }
+    .pb-callout { padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-butter-tint, #FBF0C8); }
+    .pb-callout h3 { margin-top: 0; color: var(--color-herb); }
+    .pb-entry { border-left: 4px solid var(--color-herb); padding-left: var(--space-4); margin: 0 0 var(--space-5); }
+    .pb-entry:last-child { margin-bottom: 0; }
+    .pb-entry p { margin: 0 0 var(--space-2); }
+    .tpl__meta { margin-bottom: var(--space-3); }
+    .tpl__text {
+      margin: 0 0 var(--space-4);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--color-cream);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--color-ink);
+    }
+    .pb-copy-note { font-size: var(--text-sm); color: var(--color-ink-soft); }
+    .pb-tracker-link { font-weight: 650; }
+    .pb-footer { font-size: var(--text-sm); color: var(--color-ink-soft); }
+  </style>
+  <script>
+    // Copy button: uses the clipboard API when available, otherwise selects the text for manual copy
+    (function () {
+      function selectText(el) {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      function copyWithExec(el) {
+        selectText(el);
+        try { return document.execCommand('copy'); } catch (e) { return false; }
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[data-copy]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var el = document.getElementById(btn.getAttribute('data-copy'));
+            var label = btn.getAttribute('data-label') || 'Copy';
+            var text = el.textContent.trim();
+            function done() {
+              btn.textContent = 'Copied';
+              setTimeout(function () { btn.textContent = label; }, 1800);
+            }
+            function fallback() {
+              if (copyWithExec(el)) { done(); return; }
+              selectText(el);
+              btn.textContent = 'Text selected. Press copy';
+              setTimeout(function () { btn.textContent = label; }, 3000);
+            }
+            if (navigator.clipboard && window.isSecureContext) {
+              navigator.clipboard.writeText(text).then(done, fallback);
+            } else {
+              fallback();
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="site-header__inner container">
+      <a class="wordmark" href="../index.html">
+        <span class="wordmark__line">More Than</span>
+        <span class="wordmark__line">a Meal</span>
+      </a>
+      <a class="btn btn--ghost btn--small" href="../index.html">Back to home</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ INTRO ============ -->
+    <section class="section">
+      <div class="container pb-intro">
+        <h1 class="section__title">Outreach playbook</h1>
+        <p>This is the plan for the next two weeks. The goal is simple: book your first real classes, run them, and keep a record of what you tried and what happened.</p>
+        <p>Read the two-week plan, copy templates from the section below, and log every message in <a href="tracker.csv">tracker.csv</a>. Internal page for the team. It is not linked from the site.</p>
+      </div>
+    </section>
+
+    <!-- ============ 1. TWO-WEEK PLAN ============ -->
+    <section class="section section--alt" id="plan">
+      <div class="container">
+        <h2 class="section__title">Your next 2 weeks</h2>
+        <p class="pb-intro">Effectuation means you start with what you already have, risk only what you can afford to lose, let partners shape the plan, turn surprises into options, and check the results every week. Each step lists who does it and how you will know it worked.</p>
+
+        <div class="pb-stack">
+
+          <article class="pb-panel">
+            <h3 class="pb-panel__title">Bird-in-hand: start with who you know</h3>
+            <p>Use what you already have: your own groups, floors, chapters and friends.</p>
+            <ol class="pb-list" start="1">
+              <li><strong>Write your starting list.</strong> Each teacher lists every sorority, club, dorm floor and friend group they belong to, and one person in each who could host or pass the idea along.
+                <span class="pb-who">Who: each teacher. Measured by: names added to tracker.csv by day 2.</span></li>
+              <li><strong>Message your closest groups first.</strong> Send template (g) or (h) to the five groups you know best, asking for one group of 6 or more.
+                <span class="pb-who">Who: each teacher, for their own groups. Measured by: replies and bookings in the tracker.</span></li>
+            </ol>
+          </article>
+
+          <article class="pb-panel">
+            <h3 class="pb-panel__title">Affordable loss: pilot small and set the cap first</h3>
+            <p>Each class costs groceries and time. Decide how much you will lose before you book anything.</p>
+            <ol class="pb-list" start="3">
+              <li><strong>Set your limit.</strong> Write down the most you will spend on groceries and the most hours you will give to the first three classes. Put both in the tracker Notes.
+                <span class="pb-who">Who: Zoe. Measured by: a written cap that you check at each weekly review.</span></li>
+              <li><strong>Run 2 or 3 pilot classes.</strong> Offer the first one to a friend group of 6 or more at $14 a person. Hold the next ones in different apartments so you learn what changes.
+                <span class="pb-who">Who: Zoe, plus the teacher who knows each group. Measured by: classes held, people taught, and feedback forms returned.</span></li>
+            </ol>
+          </article>
+
+          <article class="pb-panel">
+            <h3 class="pb-panel__title">Crazy quilt: partners who co-commit</h3>
+            <p>Partners bring things you cannot get alone. Ask each one for a specific thing, and offer something back.</p>
+            <ol class="pb-list" start="5">
+              <li><strong>Send the partner emails.</strong> Send template (d) to Morven Kitchen Garden, (e) to the UVA Community Food Pantry, (c) to one RA or residence life contact, (a) to one sorority philanthropy or social chair, and (b) to one CIO president.
+                <span class="pb-who">Who (suggested split): Zoe for Morven and the pantry; Lauren or Meg for residence life; Anneke for sorority chairs; Maddie for CIOs. Measured by: replies, and one next step per partner (a call, a class date, or a clear no).</span></li>
+              <li><strong>Know what each partner brings.</strong> Use this list to decide what to offer and what to ask for.
+                <ul class="pb-list pb-partners">
+                  <li><strong>Morven Kitchen Garden</strong> (student-run garden on UVA's Morven Farm)
+                    <span>Brings: fresh produce, if they can supply it. Not yet confirmed.</span>
+                    <span>You offer: a class menu built around what they grow, and credit in the class.</span>
+                    <span>Ask: produce for upcoming classes, or a volunteer exchange.</span></li>
+                  <li><strong>UVA Community Food Pantry</strong>
+                    <span>Brings: the place your donations go. Confirm with them how they want to receive it.</span>
+                    <span>You offer: a clear line in every booking about the donation.</span>
+                    <span>Ask: how and how often the donation is sent, and whether they want to co-host a class.</span></li>
+                  <li><strong>RAs and residence life</strong>
+                    <span>Brings: access to a hall and to floor groups.</span>
+                    <span>You offer: a class for a floor group.</span>
+                    <span>Ask: permission to share the idea with a floor, and any kitchen residents can use.</span></li>
+                  <li><strong>Sorority philanthropy and social chairs</strong>
+                    <span>Brings: group bookings and a philanthropy tie-in.</span>
+                    <span>You offer: a sisterhood night built around cooking.</span>
+                    <span>Ask: a booking of 6 or more for a chapter event.</span></li>
+                  <li><strong>UVA dining, nutrition or wellness groups</strong>
+                    <span>Brings: credibility and referrals to students.</span>
+                    <span>You offer: a short guide to cooking for first-years.</span>
+                    <span>Ask: a referral or a share of your booking link.</span></li>
+                  <li><strong>CIO presidents</strong>
+                    <span>Brings: member lists and meeting time.</span>
+                    <span>You offer: a class for members.</span>
+                    <span>Ask: a shout-out or a few minutes at a meeting.</span></li>
+                </ul>
+                <span class="pb-who">Who: whoever owns the contact. Measured by: one row per partner in the tracker with a status and a next step.</span></li>
+            </ol>
+          </article>
+
+          <article class="pb-panel">
+            <h3 class="pb-panel__title">Lemonade: when a class is cancelled or few people sign up</h3>
+            <p>Treat a weak result as information, and turn it into the next try.</p>
+            <ol class="pb-list" start="7">
+              <li><strong>Combine small lists.</strong> Two groups of 3 or 4 who both want a class can become one class of 6 or more.
+                <span class="pb-who">Who: the teacher who has both lists. Measured by: combined bookings in the tracker.</span></li>
+              <li><strong>Ask the people who said no.</strong> Send one question: "What would make it work for your group?"
+                <span class="pb-who">Who: Zoe. Measured by: answers in the Notes column, and at least one change you made because of them.</span></li>
+              <li><strong>Rebook the open date.</strong> Offer the date to the next partner on your list, such as a hall or a chapter.
+                <span class="pb-who">Who: the teacher who owns that partner. Measured by: a new class date in the tracker.</span></li>
+              <li><strong>Write your cancellation rule before the first booking.</strong> Put it in the confirmation email so no one is surprised.
+                <span class="pb-who">Who: Zoe. Measured by: the rule is in every confirmation email.</span></li>
+            </ol>
+          </article>
+
+          <article class="pb-panel">
+            <h3 class="pb-panel__title">Pilot-in-the-plane: check and adjust every week</h3>
+            <p>Fly, look at the instruments, adjust, and fly again. The weekly review is the habit that makes the rest work.</p>
+            <ol class="pb-list" start="11">
+              <li><strong>Hold a 20-minute review every week.</strong> Same day each week (Sunday works). Answer four questions: how many did we contact, how many replied, what is booked, what one thing will we change next week?
+                <span class="pb-who">Who: the whole team. Measured by: a dated entry in the tracker Notes for each review.</span></li>
+              <li><strong>Stop what is not working.</strong> If a message gets no reply after two rounds, mark it "no reply" and move to another partner.
+                <span class="pb-who">Who: whoever sent it. Measured by: the count of "no reply" rows, and new messages sent to replace them.</span></li>
+            </ol>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 2. WAYS TO STAND OUT ============ -->
+    <section class="section" id="stand-out">
+      <div class="container">
+        <h2 class="section__title">Ways to stand out</h2>
+        <p class="pb-intro">Plenty of people can teach a cooking class. What makes this one yours is the design work: you test ideas, see what happens, and change course. Below are six angles to test this month. Each one is cheap enough to try once. The farm angle is not yet proven, so treat it as a test: start with one question to Morven (template d) before you build anything around it.</p>
+
+        <div class="card-grid">
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">1. First-apartment survival</h3>
+              <p class="card__text"><strong>Pitch:</strong> One class ends with a week of meals and a grocery list under a set budget, so a second-year can shop and cook alone.</p>
+              <p class="card__text"><strong>Why UVA students:</strong> Second-years move into their first apartment and have never cooked for themselves.</p>
+              <p class="card__text"><strong>Cheapest test:</strong> Run one pilot class with a friend group and hand out a printed grocery list and budget sheet. Cost: one class of groceries.</p>
+              <p class="card__text"><strong>Metric:</strong> How many feedback answers say they used the list, and how many book a second class.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">2. Roommates' apartment night</h3>
+              <p class="card__text"><strong>Pitch:</strong> Book one class for the whole apartment. Roommates cook together in the kitchen they already share.</p>
+              <p class="card__text"><strong>Why UVA students:</strong> Roommates already share groceries, meals and a kitchen, so the group is already built.</p>
+              <p class="card__text"><strong>Cheapest test:</strong> Offer it to one roommate group, and ask them to invite a neighboring apartment if they are short of 6.</p>
+              <p class="card__text"><strong>Metric:</strong> Roommate-group bookings, and how many people each group brings.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">3. Sisterhood or club cook-off</h3>
+              <p class="card__text"><strong>Pitch:</strong> A team cook-off for a chapter or club. Teams get a theme, and everyone takes their meals home. Price stays $14 a person.</p>
+              <p class="card__text"><strong>Why UVA students:</strong> Chapters and clubs look for shared activities to plan together.</p>
+              <p class="card__text"><strong>Cheapest test:</strong> Offer the team format to one chapter or club you already know.</p>
+              <p class="card__text"><strong>Metric:</strong> The booking itself, and whether the group asks to rebook.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">4. Gluten-free done right</h3>
+              <p class="card__text"><strong>Pitch:</strong> A class where gluten-free cooking is taught properly, with every recipe checked, not treated as an afterthought.</p>
+              <p class="card__text"><strong>Why UVA students:</strong> Lauren has celiac disease, so she can teach gluten-free cooking from real experience.</p>
+              <p class="card__text"><strong>Cheapest test:</strong> Run one class labeled gluten-free with two recipes Lauren has already tested.</p>
+              <p class="card__text"><strong>Metric:</strong> Booking requests that mention dietary needs, and what people say about it in the feedback form.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">5. The parent gift</h3>
+              <p class="card__text"><strong>Pitch:</strong> A class parents can book for a student as "a night off from the dining hall."</p>
+              <p class="card__text"><strong>Why UVA students:</strong> Parents in UVA groups already talk about their students' first years. The flyer is built for this.</p>
+              <p class="card__text"><strong>Cheapest test:</strong> Post template (f) in one UVA parents group. Check the group's posting rules first.</p>
+              <p class="card__text"><strong>Metric:</strong> Parent inquiries, and bookings a parent makes for a student.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">6. Pay-it-forward you can see</h3>
+              <p class="card__text"><strong>Pitch:</strong> Show where the money goes. Every confirmation says what part of the class goes to the UVA Community Food Pantry, and the site shows a running total once there is a real one.</p>
+              <p class="card__text"><strong>Why UVA students:</strong> Students want to know that their money does something useful.</p>
+              <p class="card__text"><strong>Cheapest test:</strong> Add one line to the confirmation email, and ask in the feedback form whether it mattered to them.</p>
+              <p class="card__text"><strong>Metric:</strong> How many feedback answers mention the pantry, and whether the running total is shown with real figures.</p>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="pb-callout" style="margin-top: var(--space-6);">
+          <h3>Show your design process</h3>
+          <p>Your professor wants to see that you learned, not only that you launched. Keep a Design log, a Google Doc or shared note with one entry per idea you test. Each entry has four lines: <strong>Hypothesis</strong> (what you believed), <strong>Test</strong> (what you did, as cheaply as you could), <strong>Result</strong> (what happened, with real counts), and <strong>What changed</strong> (what you did next, including ideas you dropped).</p>
+          <p>Write only what you saw. A no is a result, and a dropped idea is part of the process.</p>
+          <p>Example entries, using what is true so far:</p>
+
+          <div class="pb-entry">
+            <p><strong>Entry 1: Price</strong></p>
+            <p><strong>Hypothesis:</strong> Students will pay about the price the survey suggested.</p>
+            <p><strong>Test:</strong> A price survey.</p>
+            <p><strong>Result:</strong> The survey suggested $10 to $15.</p>
+            <p><strong>What changed:</strong> We set $14 a person for groups of 6 or more.</p>
+          </div>
+
+          <div class="pb-entry">
+            <p><strong>Entry 2: Venue</strong></p>
+            <p><strong>Hypothesis:</strong> A class works in a student's apartment kitchen.</p>
+            <p><strong>Test:</strong> Our first class, held in an apartment kitchen.</p>
+            <p><strong>Result:</strong> [Fill in what happened: how many people came, what went well, what broke.]</p>
+            <p><strong>What changed:</strong> [Fill in after the class.]</p>
+          </div>
+
+          <div class="pb-entry">
+            <p><strong>Entry 3: Farm partner</strong></p>
+            <p><strong>Hypothesis:</strong> Morven Kitchen Garden can supply produce for classes.</p>
+            <p><strong>Test:</strong> Send template (d) and ask about produce directly.</p>
+            <p><strong>Result:</strong> [Pending. Write down their answer, or note that there was no reply.]</p>
+            <p><strong>What changed:</strong> [Pending. If the answer is no, drop the idea and log why.]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. TEMPLATES ============ -->
+    <section class="section section--alt" id="templates">
+      <div class="container">
+        <h2 class="section__title">Copy-paste templates</h2>
+        <p class="pb-intro">Replace everything in [BRACKETS]. Keep the booking link in every message: <a href="https://more-than-a-meal.vercel.app/book.html">more-than-a-meal.vercel.app/book.html</a>. Log every send in tracker.csv with the template letter.</p>
+
+        <div class="card-grid">
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(a) Sorority social, sisterhood or philanthropy chair</h3>
+              <p class="card__meta">Email. Subject line is included below.</p>
+              <pre class="tpl__text" id="tpl-a">Subject: Meal prep class for [CHAPTER] ($14 a person)
+
+Hi [NAME],
+
+I'm [YOUR NAME], a UVA student. My friends and I run More Than a Meal, a hands-on meal prep class taught by students. Groups of 6 or more cook together in one of your apartments, and everyone leaves with meals for the week. It's $14 a person, the produce comes from Charlottesville farms, and part of every class goes to the UVA Community Food Pantry.
+
+Would [CHAPTER] be interested in a class for a sisterhood night or a philanthropy event? I can send a short menu.
+
+Book here: https://more-than-a-meal.vercel.app/book.html
+
+Thanks,
+[YOUR NAME]
+[PHONE OR EMAIL]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-a">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(b) Club or CIO president</h3>
+              <p class="card__meta">Email. Subject line is included below.</p>
+              <pre class="tpl__text" id="tpl-b">Subject: Cooking class for [ORG] members
+
+Hi [NAME],
+
+I'm [YOUR NAME], a UVA student running More Than a Meal. We teach hands-on, beginner-friendly meal prep classes for groups of 6 or more. Members leave with meals for the week. It's $14 a person, and the produce comes from Charlottesville farms.
+
+I'd love to offer a class to [ORG]. Would you share it with your members, or put it on a meeting agenda? I can send a flyer you can post.
+
+Book a class: https://more-than-a-meal.vercel.app/book.html
+
+Thanks for considering it,
+[YOUR NAME]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-b">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(c) RA or residence life</h3>
+              <p class="card__meta">Email. Subject line is included below.</p>
+              <pre class="tpl__text" id="tpl-c">Subject: Hosting a cooking class on [HALL NAME]?
+
+Hi [NAME],
+
+I'm [YOUR NAME], a UVA student. My friends and I run More Than a Meal, a student-taught meal prep class. Second-years often move into their first apartment without ever cooking for themselves. Our classes teach them the basics with the people on their floor. Groups of 6 or more book a class for $14 a person.
+
+Would you be open to me sharing the idea with residents on [HALL NAME]? I'd also like to ask whether there is a kitchen residents can use for a class.
+
+Book here: https://more-than-a-meal.vercel.app/book.html
+
+Thank you,
+[YOUR NAME]
+[PHONE OR EMAIL]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-c">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(d) Morven Kitchen Garden</h3>
+              <p class="card__meta">Email. Subject line is included below.</p>
+              <pre class="tpl__text" id="tpl-d">Subject: Produce for More Than a Meal classes?
+
+Hi [NAME],
+
+I'm [YOUR NAME], a UVA student. We run More Than a Meal, a student-taught meal prep class. Our classes use fresh produce from Charlottesville farms, and we'd like to learn whether Morven Kitchen Garden could be one of our sources.
+
+We could work together a few ways:
+- You sell us produce for upcoming classes.
+- We build a class menu around what you grow, and credit the garden in our class materials.
+- Our students volunteer on a garden workday in exchange for produce.
+
+Which of these could work for your team? I'm glad to talk for 15 minutes at a time that suits you.
+
+Thanks,
+[YOUR NAME]
+[PHONE OR EMAIL]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-d">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(e) UVA Community Food Pantry</h3>
+              <p class="card__meta">Email. Subject line is included below.</p>
+              <pre class="tpl__text" id="tpl-e">Subject: Donation partnership and a possible co-hosted class
+
+Hi [NAME],
+
+I'm [YOUR NAME], a UVA student. More Than a Meal is a student-run cooking class: groups of 6 or more, $14 a person, with produce from Charlottesville farms. Part of every class already goes to the UVA Community Food Pantry, and I want to make sure we're doing it the way that works best for you.
+
+Could you help with three things?
+1. How and how often should we send the donation? Our booking confirmations can say how much goes to the pantry.
+2. Would the pantry be interested in co-hosting a class?
+3. Is there a volunteer contact who helps with events?
+
+Thank you,
+[YOUR NAME]
+[PHONE OR EMAIL]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-e">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(f) Parent message for UVA parent groups</h3>
+              <p class="card__meta">Facebook post. No subject. Attach the flyer. Check the group's rules before posting.</p>
+              <pre class="tpl__text" id="tpl-f">Hi UVA parents! My friends and I are UVA students running More Than a Meal, a hands-on meal prep cooking class for groups of 6 or more.
+
+If your student lives with friends and has never cooked for themselves, this is a night off from the dining hall. They learn to cook easy meals with fresh produce from Charlottesville farms and leave with food for the week. It's $14 a person, and part of every class goes to the UVA Community Food Pantry.
+
+Book for a group: https://more-than-a-meal.vercel.app/book.html</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-f">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(g) Instagram DM to a club account</h3>
+              <p class="card__meta">Direct message. No subject. Set up the account first so people can see who you are.</p>
+              <pre class="tpl__text" id="tpl-g">Hi [ORG]! I'm [YOUR NAME], a UVA student. We run More Than a Meal, a student-taught meal prep class. Groups of 6 or more learn to cook together and leave with meals for the week. It's $14 a person, with produce from Charlottesville farms.
+
+Would your members be interested? I'm happy to send a flyer or a short menu.
+
+Book here: https://more-than-a-meal.vercel.app/book.html</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-g">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(h) GroupMe or group chat blast</h3>
+              <p class="card__meta">Text message. No subject.</p>
+              <pre class="tpl__text" id="tpl-h">Hey [GROUP]! My friends and I run More Than a Meal, a student-taught meal prep class. You learn to cook a few easy meals and leave with food for the week. It's $14 a person, and it's for groups of 6 or more.
+
+Want to book one for this group? Reply to me or use this link: https://more-than-a-meal.vercel.app/book.html
+
+If it's not for you, no worries. Feel free to mute.</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-h">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(i) Follow-up after no reply</h3>
+              <p class="card__meta">Reply to your first email. Subject line is included below.</p>
+              <pre class="tpl__text" id="tpl-i">Subject: Re: [ORIGINAL SUBJECT]
+
+Hi [NAME],
+
+Just bumping this in case it got buried. We're booking meal prep classes for groups of 6 or more at $14 a person, and I'd love to find a time that works for [GROUP].
+
+If now isn't a good time, just let me know and I won't follow up again.
+
+Book here: https://more-than-a-meal.vercel.app/book.html
+
+Thanks,
+[YOUR NAME]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-i">Copy</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <h3 class="card__title">(j) Thank-you and feedback request</h3>
+              <p class="card__meta">Send the day after a class. Subject line is included below. This is how you get real feedback for the professor.</p>
+              <pre class="tpl__text" id="tpl-j">Subject: Thanks for cooking with us, [GROUP]
+
+Hi [NAME],
+
+Thanks for having us on [DATE], and for cooking with us. We'd love to hear how it went. Could you answer four quick questions? It takes about two minutes.
+
+1. On a scale of 1 to 5, how confident do you feel cooking [RECIPE] on your own now?
+2. What was the most useful part?
+3. Did you eat or freeze any of the meals this week? (Yes, No, or Some)
+4. What would make you more likely to book another class, or recommend us?
+
+You can reply to this email or fill out this form: [FORM LINK]
+
+May we quote your answers, without names, in a class report? Yes or no is fine.
+
+Thanks again,
+[YOUR NAME]</pre>
+              <div class="card__footer">
+                <button class="btn btn--primary btn--block" type="button" data-copy="tpl-j">Copy</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 4. SEND FASTER ============ -->
+    <section class="section" id="send-faster">
+      <div class="container pb-intro">
+        <h2 class="section__title">Send faster</h2>
+        <ul class="pb-list">
+          <li><strong>Send from your @virginia.edu account.</strong> Partners see a UVA student, and that is the point. Use your name and a real signature line.</li>
+          <li><strong>Keep a separate contacts sheet for mail merge.</strong> The tracker has no email column on purpose, so people's addresses stay out of the shared log. Make a second sheet with Name, Email, Organization, and Type. Merge from that sheet, then log each send in tracker.csv.</li>
+          <li><strong>Mail merge in Word with Outlook.</strong> Open a blank Word document, go to Mailings, then Start Mail Merge, then E-mail Messages. Choose Select Recipients, Use an Existing List, and pick your contacts sheet. Use Insert Merge Field for the name, then send from Outlook. Test with one address you control first.</li>
+          <li><strong>Mail merge in Gmail.</strong> If your account is Gmail, look at YAMM (Yet Another Mail Merge) or GMass. Both have free tiers. Check current limits before a big send, since free limits can change.</li>
+          <li><strong>Check your account's bulk-sending rules.</strong> If you're unsure whether your UVA account allows bulk email, ask UVA IT before you send a large batch.</li>
+          <li><strong>Personalize the first line.</strong> Mention something real about the group (their philanthropy, their last event). A merged email that reads like a form gets ignored. Send in small batches of 5 to 10 a day.</li>
+          <li><strong>Where to find contacts.</strong>
+            <ul class="pb-list">
+              <li>Clubs and CIOs: the student organization directory on UVA's student affairs pages. Search "UVA student organizations" to find the current list.</li>
+              <li>Sororities and fraternities: look for the Panhellenic and IFC chapter pages, which list chapters. If you can't find them, ask Greek life. Chapter contacts often include a social or philanthropy chair.</li>
+              <li>Residence life: the housing and residence life site lists hall staff. Ask for the RA for your building if you can't find a name.</li>
+              <li>Parents: search for UVA parent groups on Facebook. Read the group rules before posting.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 5. TRACK IT ============ -->
+    <section class="section section--alt" id="track">
+      <div class="container pb-intro">
+        <h2 class="section__title">Track it for your professor</h2>
+        <p>Every message goes in <a class="pb-tracker-link" href="tracker.csv">tracker.csv</a>. It starts empty. Add one row per person you contact, and update the Status and dates as things change.</p>
+
+        <h3>What each column means</h3>
+        <ul class="pb-list">
+          <li><strong>Date contacted:</strong> the day you sent the message (YYYY-MM-DD).</li>
+          <li><strong>Name:</strong> the person you contacted.</li>
+          <li><strong>Organization:</strong> their group, hall, partner or chapter.</li>
+          <li><strong>Type:</strong> sorority, club, RA, partner, parent, or other.</li>
+          <li><strong>Channel:</strong> email, DM, GroupMe, or in person.</li>
+          <li><strong>Template used:</strong> the letter from this page, such as (a) or (j). Write "custom" if you wrote it yourself.</li>
+          <li><strong>Status:</strong> sent, replied, booked, declined, or no reply.</li>
+          <li><strong>Follow-up date:</strong> when you plan to check back.</li>
+          <li><strong>Class date:</strong> the date of the class, once booked.</li>
+          <li><strong>Group size:</strong> how many people are in the group.</li>
+          <li><strong>Notes:</strong> what they said, the cap you set, and the weekly review entries.</li>
+        </ul>
+
+        <h3>The five numbers to report</h3>
+        <ol class="pb-list">
+          <li><strong>Contacts reached:</strong> the number of rows with a Date contacted.</li>
+          <li><strong>Replies:</strong> rows with Status replied, booked or declined, divided by contacts reached.</li>
+          <li><strong>Classes booked:</strong> rows with Status booked and a Class date.</li>
+          <li><strong>People taught:</strong> the total Group size for classes that have already happened.</li>
+          <li><strong>Dollars to the UVA Community Food Pantry:</strong> people taught, times the per-person amount you agreed on with the pantry. Use the figure you agreed on, not a guess.</li>
+        </ol>
+        <p>Report what the feedback forms say as they are written. A small number of responses is fine. Say how many responses there were.</p>
+      </div>
+    </section>
+
+    <footer class="section pb-footer">
+      <div class="container">
+        <p>Internal page for the More Than a Meal team. Not linked from the site. <a href="../index.html">Back to home</a></p>
+      </div>
+    </footer>
+
+  </main>
+</body>
+</html>
