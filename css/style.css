@@ -2047,3 +2047,37 @@ input[type="date"].field__input::-webkit-calendar-picker-indicator {
 @media (min-width: 1040px) {
   .card-grid--four { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* Home hero: the logo sits where the big photo used to be */
+.hero__img.hero__img--logo {
+  display: block;
+  width: min(78%, 420px);
+  margin-inline: auto;
+  aspect-ratio: 600 / 520;
+  object-fit: contain;
+  border-radius: 0;
+  outline: none; /* the logo has no photo edge */
+}
+/* Price sticker sits in the empty top corner beside the logo, never over it */
+.hero__media:has(.hero__img--logo) .hero__sticker {
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  width: 84px;
+  height: 84px;
+  font-size: 0.8rem;
+}
+@media (min-width: 65em) {
+  .hero__img.hero__img--logo {
+    width: min(100%, 520px);
+  }
+  .hero__media:has(.hero__img--logo) .hero__sticker {
+    top: 8px;
+    right: auto;
+    left: 0;
+    width: 120px;
+    height: 120px;
+    font-size: 1rem;
+  }
+}
