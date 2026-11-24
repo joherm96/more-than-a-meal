@@ -1,0 +1,5 @@
+source/
+.DS_Store
+.vercel
+.claude/
+qa/shots/

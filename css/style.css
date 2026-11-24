@@ -1,0 +1,2048 @@
+/* ==========================================================================
+   More Than a Meal — main stylesheet
+   --------------------------------------------------------------------------
+   One file for the whole site. Plain CSS, no build step.
+
+   HOW THIS FILE IS ORGANISED
+   Each section starts with a big comment banner like the one above.
+   Search for the section name (for example "CLASS CARD") to jump to it.
+
+    1. Design tokens (colors, fonts, spacing, corners, shadows)
+    2. Reset and base elements
+    3. Layout helpers (.container, .section)
+    4. Buttons
+    5. Site header, wordmark, nav, hamburger
+    6. Mobile "Book a class" bar
+    7. Hero
+    8. Section headings
+    9. How it works steps
+   10. Photo gallery
+   11. Card grid and generic card
+   12. Class card extras (price, tags, book button)
+   13. Teacher card
+   14. Farm card
+   15. Where your money goes band
+   16. Story prose and team photo
+   17. Booking form
+   18. Thank-you page
+   19. Site footer
+   20. Utilities
+   21. Reduced motion
+
+   PUT THIS IN THE <head> OF EVERY PAGE (fonts + this file + the script):
+
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Fraunces:opsz,wght,SOFT@9..144,400..800,0..100&display=swap">
+     <link rel="stylesheet" href="css/style.css">
+     <script src="js/main.js"></script>
+
+   main.js is loaded in the <head> on purpose (no "defer"): it adds a "js"
+   class to <html> straight away so the mobile menu never flashes open.
+
+   BREAKPOINTS (mobile first: the base styles are for phones, ~375px wide)
+     45em  = 720px   tablets / small laptops: 2-column grids, full nav
+     65em  = 1040px  desktops: 3-column grids, side-by-side hero
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   Change a color or font here and it changes everywhere.
+   Contrast ratios (WCAG 2.x) are noted next to each text color.
+   AA needs 4.5:1 for normal text, 3:1 for large text and UI outlines.
+   ========================================================================== */
+
+:root {
+  /* --- Colors: surfaces --- */
+  --color-cream: #FBF6EC;          /* page background */
+  --color-cream-deep: #F3EAD7;     /* alternate section background */
+  --color-paper: #FFFDF8;          /* cards and form fields */
+  --color-chalkboard: #1F3A27;     /* donation band, footer (deep herb green) */
+
+  /* --- Colors: brand --- */
+  --color-herb: #2F5D3A;           /* header, primary buttons. White on it: 7.64:1, on cream: 7.10:1 */
+  --color-herb-dark: #244A2D;      /* primary button hover. White on it: 10.04:1 */
+  --color-herb-tint: #DCEBD9;      /* light green chip background. Charcoal on it: 11.41:1 */
+
+  --color-tomato: #C04A2F;         /* Book buttons, prices. White on it: 4.93:1, on cream: 4.57:1 */
+  --color-tomato-dark: #A33E26;    /* Book button hover. White on it: 6.41:1 */
+  --color-tomato-bright: #D9583B;  /* original brand tomato. DECORATION ONLY (3.88:1 with white, too low for text) */
+  --color-tomato-tint: #F7D9CF;    /* light tomato chip background. Charcoal on it: 10.64:1 */
+
+  --color-butter: #F2C14E;         /* tags, highlights, stickers. Charcoal on it: 8.44:1, on herb: 4.55:1 */
+  --color-butter-tint: #FCE9B8;    /* light butter chip background. Charcoal on it: 11.79:1 */
+
+  /* --- Colors: text --- */
+  --color-ink: #2B2B2B;            /* body text. On cream: 13.14:1, on white: 14.16:1 */
+  --color-ink-soft: #5E5A52;       /* secondary text. On cream: 6.37:1, on white: 6.86:1 */
+  --color-chalk: #F3EDE0;          /* text on chalkboard. 10.63:1 */
+  --color-chalk-soft: #C9D8C4;     /* secondary text on chalkboard. 8.33:1 */
+
+  /* --- Colors: form + feedback --- */
+  --color-field-border: #8A8173;   /* input outlines. On cream: 3.57:1 (meets 3:1 for UI) */
+  --color-error: #A3261E;          /* error text and borders. On cream: 6.83:1, on white: 7.36:1 */
+  --color-focus: var(--color-ink); /* keyboard focus ring on light backgrounds */
+
+  /* --- Fonts --- */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* --- Type scale (fluid: grows a little on bigger screens) --- */
+  --text-sm: 0.875rem;                               /* 14px */
+  --text-base: 1rem;                                 /* 16px */
+  --text-md: 1.125rem;                               /* 18px */
+  --text-lg: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem); /* card titles */
+  --text-xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem); /* section titles */
+  --text-hero: clamp(2.5rem, 1.6rem + 4.4vw, 4.75rem);
+
+  /* --- Spacing --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --gutter: 1.25rem;               /* side padding of the page */
+  --section-space: 3.5rem;         /* space above/below each section */
+
+  /* --- Corners (bigger surfaces get bigger corners) --- */
+  --radius-sm: 10px;               /* inputs, small images */
+  --radius-md: 14px;               /* images inside cards, gallery photos */
+  --radius-lg: 22px;               /* cards, form panel */
+  --radius-xl: 30px;               /* hero photo, donation band */
+  --radius-pill: 999px;            /* buttons and tag chips */
+
+  /* --- Shadows (soft, warm, layered) --- */
+  --shadow-card:
+    0 1px 2px rgb(60 40 20 / 0.06),
+    0 6px 18px -6px rgb(60 40 20 / 0.12);
+  --shadow-raised:
+    0 2px 4px rgb(60 40 20 / 0.08),
+    0 14px 30px -10px rgb(60 40 20 / 0.22);
+
+  /* --- Motion --- */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --speed-fast: 150ms;
+  --speed-base: 220ms;
+
+  /* --- Sizes --- */
+  --touch-target: 48px;            /* min height for buttons and inputs */
+  --header-height: 68px;
+  --mobile-bar-height: 76px;
+  --measure: 66ch;                 /* comfortable reading width for prose */
+  --container: 72rem;              /* max page width (1152px) */
+}
+
+@media (min-width: 45em) {
+  :root {
+    --gutter: 2rem;
+    --section-space: 5rem;
+    --header-height: 76px;
+  }
+}
+
+
+/* ==========================================================================
+   2. RESET AND BASE ELEMENTS
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + 1rem); /* anchor links clear the sticky header */
+}
+
+body {
+  margin: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Leave room at the bottom on phones so the sticky Book bar never covers content */
+body:has(.mobile-book-bar) {
+  padding-bottom: var(--mobile-bar-height);
+}
+@media (min-width: 45em) {
+  body:has(.mobile-book-bar) {
+    padding-bottom: 0;
+  }
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variation-settings: "SOFT" 100;  /* Fraunces' rounded, friendly cut */
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 var(--space-4);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-herb);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Every photo gets the same soft edge so light photos don't melt into the cream */
+img,
+.img-placeholder {
+  outline: 1px solid rgb(0 0 0 / 0.1);
+  outline-offset: -1px;
+}
+
+/* One consistent keyboard focus ring. Dark sections switch it to butter. */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--color-butter);
+  color: var(--color-ink);
+}
+
+
+/* ==========================================================================
+   3. LAYOUT HELPERS
+   .container  centers content and adds side padding
+   .section    vertical rhythm between page sections
+   .section--alt  a slightly deeper cream background to separate sections
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.section--alt {
+  background: var(--color-cream-deep);
+}
+
+
+/* ==========================================================================
+   4. BUTTONS
+   <a class="btn btn--primary" href="...">  green, for main actions
+   <a class="btn btn--book" href="book.html"> tomato, ONLY for booking
+   <a class="btn btn--ghost" href="...">    outline, for secondary actions
+   Add .btn--block to make a button fill its container.
+   Add .btn--small for the compact header button.
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  padding: 0.7rem 1.4rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition-property: background-color, border-color, color, box-shadow, transform;
+  transition-duration: var(--speed-fast);
+  transition-timing-function: var(--ease-out);
+}
+
+/* Small press feedback */
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn--primary {
+  background: var(--color-herb);
+  color: #FFFFFF;
+}
+.btn--primary:hover {
+  background: var(--color-herb-dark);
+}
+
+.btn--book {
+  background: var(--color-tomato);
+  color: #FFFFFF;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.08), 0 4px 10px -4px rgb(163 62 38 / 0.5);
+}
+.btn--book:hover {
+  background: var(--color-tomato-dark);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: currentColor;
+  color: var(--color-herb);
+}
+.btn--ghost:hover {
+  background: var(--color-herb-tint);
+}
+
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.btn--small {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+}
+
+/* A row of buttons that wraps nicely on phones */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+
+/* ==========================================================================
+   5. SITE HEADER
+   Structure:
+   <header class="site-header">
+     <div class="site-header__inner container">
+       <a class="wordmark" href="index.html">
+         <span class="wordmark__line">More Than</span>
+         <span class="wordmark__line">a Meal</span>
+       </a>
+       <nav class="nav" id="site-nav" aria-label="Main"> <ul class="nav__list"> ... </ul> </nav>
+       <a class="btn btn--book btn--small site-header__book" href="book.html">Book a class</a>
+       <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav"> ... </button>
+     </div>
+   </header>
+   On phones the nav is hidden until the hamburger (.nav-toggle) is tapped,
+   which adds .is-open to .nav. On 720px+ the nav is always shown inline.
+   Mark the current page's link with aria-current="page".
+   ========================================================================== */
+
+.site-header {
+  --color-focus: var(--color-butter);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-herb);
+  color: #FFFFFF;
+  box-shadow: 0 1px 0 rgb(0 0 0 / 0.12);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--header-height);
+}
+
+/* --- Wordmark: two stacked lines on phones, one line on wider screens --- */
+.wordmark {
+  margin-right: auto;
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-variation-settings: "SOFT" 100, "opsz" 72;
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+}
+.wordmark__line {
+  display: block;
+}
+.wordmark__line + .wordmark__line {
+  color: var(--color-butter);
+  font-style: italic;
+  font-weight: 500;
+}
+.wordmark:hover {
+  text-decoration: none;
+}
+
+/* --- Header Book button: always visible --- */
+.site-header__book {
+  flex-shrink: 0;
+}
+
+/* --- Hamburger button (phones only) --- */
+.nav-toggle {
+  display: none; /* only shown when JavaScript is running, see .js rule below */
+  position: relative;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  margin-right: -6px; /* optical: lines up the icon with the page edge */
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #FFFFFF;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.js .nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+
+/* The three lines of the hamburger; they turn into an X when open */
+.nav-toggle__bar {
+  position: absolute;
+  left: 11px;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition-property: transform, opacity;
+  transition-duration: var(--speed-base);
+  transition-timing-function: var(--ease-out);
+}
+.nav-toggle__bar:nth-child(1) { top: 15px; }
+.nav-toggle__bar:nth-child(2) { top: 21px; }
+.nav-toggle__bar:nth-child(3) { top: 27px; }
+
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* --- Nav links --- */
+.nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius-pill);
+  color: #FFFFFF;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--speed-fast) var(--ease-out);
+}
+.nav__link:hover {
+  background: rgb(255 255 255 / 0.12);
+}
+.nav__link[aria-current="page"] {
+  background: rgb(255 255 255 / 0.14);
+  box-shadow: inset 0 -2px 0 var(--color-butter);
+}
+
+/* --- Phones: nav becomes a drop-down panel under the header --- */
+@media (max-width: 44.99em) {
+  /* Without JavaScript the links simply wrap onto a second row */
+  .site-header__inner {
+    flex-wrap: wrap;
+  }
+  .nav {
+    order: 10;
+    width: 100%;
+    padding-bottom: var(--space-3);
+  }
+
+  /* With JavaScript the nav hides until the hamburger opens it */
+  .js .site-header__inner {
+    flex-wrap: nowrap;
+  }
+  .js .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--space-2) var(--gutter) var(--space-5);
+    background: var(--color-herb);
+    box-shadow: 0 16px 24px -12px rgb(0 0 0 / 0.35);
+  }
+  .js .nav.is-open {
+    display: block;
+    animation: nav-drop var(--speed-base) var(--ease-out);
+  }
+  .js .nav__list {
+    flex-direction: column;
+    gap: 0;
+  }
+  .js .nav__link {
+    min-height: 52px;
+    padding-inline: var(--space-3);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 500;
+  }
+}
+
+@keyframes nav-drop {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 720px and up: nav sits inline, hamburger hidden, wordmark on one line --- */
+@media (min-width: 45em) {
+  .wordmark {
+    font-size: 1.5rem;
+  }
+  .wordmark__line {
+    display: inline;
+  }
+  .nav {
+    margin-right: var(--space-2);
+  }
+  .js .nav-toggle {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   6. MOBILE "BOOK A CLASS" BAR
+   A bar stuck to the bottom of the screen on phones only.
+   <div class="mobile-book-bar">
+     <p class="mobile-book-bar__text">Next class: Sat, Dec 6</p>
+     <a class="btn btn--book" href="book.html">Book a class</a>
+   </div>
+   Leave it off book.html (people are already booking there).
+   The text line is optional.
+   ========================================================================== */
+
+.mobile-book-bar {
+  --color-focus: var(--color-butter);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--mobile-bar-height);
+  padding: var(--space-3) var(--gutter);
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+  background: var(--color-chalkboard);
+  color: var(--color-chalk);
+  box-shadow: 0 -8px 24px -10px rgb(0 0 0 / 0.35);
+}
+
+.mobile-book-bar__text {
+  flex: 1;
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.3;
+  color: var(--color-chalk-soft);
+}
+
+.mobile-book-bar .btn {
+  flex: 1;
+}
+.mobile-book-bar__text + .btn {
+  flex: 0 0 auto;
+}
+
+@media (min-width: 45em) {
+  .mobile-book-bar {
+    display: none;
+  }
+}
+
+
+/* ==========================================================================
+   7. HERO
+   <section class="hero">
+     <div class="hero__inner container">
+       <div class="hero__text">
+         <h1 class="hero__title">...</h1>
+         <p class="hero__subline">...</p>
+         <div class="btn-row"> buttons </div>
+       </div>
+       <figure class="hero__media">
+         <img class="hero__img" src="..." alt="...">
+         <p class="hero__sticker">Fresh from local farms</p>   (optional)
+       </figure>
+     </div>
+   </section>
+   Phones: photo first, text below. 1040px+: text left, photo right.
+   ========================================================================== */
+
+.hero {
+  padding-block: var(--space-4) var(--section-space);
+}
+
+.hero__inner {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.hero__media {
+  position: relative;
+  margin: 0;
+}
+
+.hero__img,
+.hero__media .img-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+
+/* The round butter "sticker" stuck on the corner of the photo,
+   like a price sticker at a farm stand */
+.hero__sticker {
+  position: absolute;
+  right: 12px;
+  bottom: -18px;
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: 50%;
+  background: var(--color-butter);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variation-settings: "SOFT" 100;
+  line-height: 1.1;
+  text-align: center;
+  transform: rotate(-8deg);
+  box-shadow: var(--shadow-raised);
+}
+
+.hero__title {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-hero);
+  font-weight: 650;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--color-herb);
+}
+
+.hero__subline {
+  max-width: 34ch;
+  margin-bottom: var(--space-5);
+  font-size: var(--text-md);
+  color: var(--color-ink-soft);
+}
+
+@media (min-width: 45em) {
+  .hero__img,
+  .hero__media .img-placeholder {
+    aspect-ratio: 16 / 9;
+  }
+  .hero__sticker {
+    width: 132px;
+    height: 132px;
+    right: 28px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 65em) {
+  .hero {
+    padding-top: var(--space-6);
+  }
+  .hero__inner {
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: var(--space-7);
+  }
+  .hero__text {
+    order: -1; /* text on the left */
+  }
+  .hero__img,
+  .hero__media .img-placeholder {
+    aspect-ratio: 4 / 5;
+  }
+  .hero__sticker {
+    right: auto;
+    left: -36px;
+    bottom: 48px;
+  }
+}
+
+
+/* ==========================================================================
+   8. SECTION HEADINGS
+   <div class="section__header">
+     <h2 class="section__title">Upcoming classes</h2>
+     <p class="section__intro">One short sentence about this section.</p>
+   </div>
+   The butter squiggle under the title is drawn by CSS, nothing to add.
+   Use .section__header--center to center it.
+   ========================================================================== */
+
+.section__header {
+  max-width: 40rem;
+  margin-bottom: var(--space-6);
+}
+
+.section__header--center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.section__title {
+  position: relative;
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  padding-bottom: 0.4em;
+  font-size: var(--text-xl);
+  color: var(--color-herb);
+}
+
+/* Hand-drawn chalk-style squiggle under section titles */
+.section__title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 4.5rem;
+  height: 10px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 10'%3E%3Cpath d='M2 6c6-4 10-4 16 0s10 4 16 0 10-4 16 0 10 4 16 0' fill='none' stroke='%23F2C14E' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat left center / contain;
+}
+.section__header--center .section__title::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section__intro {
+  margin: 0;
+  font-size: var(--text-md);
+  color: var(--color-ink-soft);
+}
+
+
+/* ==========================================================================
+   9. HOW IT WORKS STEPS
+   <ol class="steps">
+     <li class="step">
+       <h3 class="step__title">Pick a class</h3>
+       <p class="step__text">...</p>
+     </li>
+     ...
+   </ol>
+   The numbers are added automatically, in order. Works with 3 or 4 steps.
+   ========================================================================== */
+
+.steps {
+  display: grid;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  column-gap: var(--space-4);
+  counter-increment: step;
+}
+
+/* The round number */
+.step::before {
+  content: counter(step);
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--color-chalkboard);
+  color: var(--color-butter);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dashed line connecting the numbers on phones */
+.step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  top: 3.5rem;
+  bottom: calc(-1 * var(--space-5) + 0.5rem);
+  border-left: 2px dashed var(--color-field-border);
+  opacity: 0.6;
+}
+
+.step__title {
+  align-self: center;
+  margin: 0.55rem 0 var(--space-1);
+  font-size: var(--text-lg);
+}
+
+.step__text {
+  margin: 0;
+  color: var(--color-ink-soft);
+}
+
+@media (min-width: 45em) {
+  .steps {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-6);
+  }
+  .step {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-3);
+  }
+  .step::before {
+    grid-row: auto;
+  }
+  /* The connecting line runs sideways on wider screens */
+  .step:not(:last-child)::after {
+    left: 3.75rem;
+    right: calc(-1 * var(--space-6) + 0.75rem);
+    top: 1.5rem;
+    bottom: auto;
+    border-left: 0;
+    border-top: 2px dashed var(--color-field-border);
+  }
+  .step__title {
+    margin-top: 0;
+  }
+}
+
+
+/* ==========================================================================
+   10. PHOTO GALLERY
+   <div class="gallery">
+     <figure class="gallery__item"><img src="..." alt="..."></figure>
+     <figure class="gallery__item gallery__item--wide"><img ...></figure>
+     ...
+   </div>
+   All photos are cropped to squares. --wide makes one photo span 2 columns.
+   Optional caption: <figcaption class="gallery__caption">...</figcaption>
+   ========================================================================== */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.gallery__item {
+  position: relative;
+  margin: 0;
+}
+
+.gallery__item img,
+.gallery__item .img-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.gallery__item--wide {
+  grid-column: span 2;
+}
+.gallery__item--wide img,
+.gallery__item--wide .img-placeholder {
+  aspect-ratio: 2 / 1;
+}
+
+.gallery__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+@media (min-width: 45em) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+@media (min-width: 65em) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+/* ==========================================================================
+   11. CARD GRID AND GENERIC CARD
+   <div class="card-grid">
+     <article class="card">
+       <img class="card__img" src="..." alt="...">
+       <div class="card__body">
+         <h3 class="card__title">...</h3>
+         <p class="card__meta">Small detail line</p>
+         <p class="card__text">...</p>
+       </div>
+     </article>
+   </div>
+   1 column on phones, 2 at 720px, 3 at 1040px.
+   Add .card-grid--two to stop at 2 columns.
+   ========================================================================== */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 45em) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 65em) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  .card-grid--two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-card);
+}
+
+/* Photo at the top of the card. The card's rounded corners crop it. */
+.card__img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  outline: 0;
+}
+
+.card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--space-5);
+}
+
+.card__title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-lg);
+}
+
+.card__meta {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-ink-soft);
+}
+
+.card__text {
+  color: var(--color-ink);
+}
+
+.card__text:last-child {
+  margin-bottom: 0;
+}
+
+/* Pushes whatever comes after it (usually the button) to the bottom,
+   so buttons line up across cards of different lengths */
+.card__footer {
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
+
+/* ==========================================================================
+   12. CLASS CARD EXTRAS
+   <article class="card card--class">
+     <img class="card__img" ...>
+     <div class="card__body">
+       <ul class="tags">
+         <li class="tag tag--veg">Vegetarian</li>
+         <li class="tag tag--gf">Gluten-free</li>
+       </ul>
+       <h3 class="card__title">...</h3>
+       <p class="card__meta">Sat, Dec 6, 11am to 1pm</p>
+       <p class="card__text">...</p>
+       <div class="card__footer class-card__buy">
+         <p class="price">$15 <span class="price__note">per person</span></p>
+         <a class="btn btn--book" href="book.html?class=Class+Name">Book</a>
+       </div>
+     </div>
+   </article>
+   Tag options: .tag--veg .tag--vegan .tag--gf .tag--df (plain .tag also works)
+   ========================================================================== */
+
+.price {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  font-variation-settings: "SOFT" 100, "opsz" 72;
+  font-variant-numeric: tabular-nums lining-nums;
+  line-height: 1;
+  color: var(--color-tomato);
+}
+
+.price__note {
+  display: block;
+  margin-top: var(--space-1);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-ink-soft);
+}
+
+/* Price on the left, Book button on the right */
+.class-card__buy {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  border-top: 1px dashed rgb(43 43 43 / 0.18);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+.card--class .card__text {
+  margin-bottom: var(--space-4);
+}
+
+/* --- Tag chips --- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.2rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-butter-tint);
+  color: var(--color-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Small colored dot in front of each dietary tag */
+.tag::before {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--color-butter);
+}
+
+.tag--veg   { background: var(--color-herb-tint); }
+.tag--veg::before   { background: #5B8C55; }
+
+.tag--vegan { background: var(--color-herb); color: #FFFFFF; }
+.tag--vegan::before { background: var(--color-butter); }
+
+.tag--gf    { background: var(--color-butter-tint); }
+.tag--gf::before    { background: #C9952A; }
+
+.tag--df    { background: var(--color-tomato-tint); }
+.tag--df::before    { background: var(--color-tomato-bright); }
+
+
+/* ==========================================================================
+   13. TEACHER CARD
+   <article class="card card--teacher">
+     <img class="card__img" src="..." alt="Photo of Name">
+     <div class="card__body">
+       <h3 class="card__title">Name</h3>
+       <p class="card__meta">Third year, Nutrition</p>
+       <p class="card__loves"><strong>Loves to cook:</strong> shakshuka</p>
+       <p class="card__text">Short bio...</p>
+     </div>
+   </article>
+   ========================================================================== */
+
+.card--teacher .card__img {
+  aspect-ratio: 1 / 1;          /* square on phones so cards aren't too tall */
+  object-position: center 25%;  /* keeps faces in frame */
+}
+@media (min-width: 45em) {
+  .card--teacher .card__img {
+    aspect-ratio: 4 / 5;        /* portrait on wider screens */
+  }
+}
+
+.card__loves {
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-butter-tint);
+  font-size: 0.9375rem;
+}
+
+.card__loves strong {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--color-herb);
+}
+
+
+/* ==========================================================================
+   14. FARM CARD
+   <article class="card card--farm">
+     <img class="card__img" src="..." alt="...">
+     <div class="card__body">
+       <h3 class="card__title">Farm name</h3>
+       <p class="card__meta card__place">Location, VA</p>
+       <p class="card__text">What we get from them...</p>
+       <p class="card__footer"><a class="card__link" href="...">Visit their site</a></p>
+     </div>
+   </article>
+   ========================================================================== */
+
+.card--farm .card__img {
+  aspect-ratio: 16 / 10;
+}
+
+/* Location line with a little map-pin drawn in CSS */
+.card__place {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.card__place::before {
+  content: "";
+  flex-shrink: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50% 50% 50% 0;
+  background: var(--color-tomato);
+  transform: rotate(-45deg);
+}
+
+.card__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+
+/* ==========================================================================
+   15. WHERE YOUR MONEY GOES BAND
+   A full-width chalkboard, like the menu board at a market stand.
+   <section class="donation-band">
+     <div class="donation-band__inner container">
+       <div class="donation-band__intro">
+         <h2 class="donation-band__title">Where your $15 goes</h2>
+         <p>...</p>
+       </div>
+       <ul class="donation-band__list">
+         <li class="donation-band__row">
+           <span class="donation-band__label">Fresh produce</span>
+           <span class="donation-band__amount">$7</span>
+         </li>
+         ...
+         <li class="donation-band__row donation-band__row--highlight"> ... </li>
+       </ul>
+       <p class="donation-band__note">Optional footnote</p>
+     </div>
+   </section>
+   The dotted line between label and amount is drawn automatically.
+   ========================================================================== */
+
+.donation-band {
+  --color-focus: var(--color-butter);
+  position: relative;
+  padding-block: var(--section-space);
+  background-color: var(--color-chalkboard);
+  /* faint chalk smudges */
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgb(255 255 255 / 0.05), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 85% 80%, rgb(255 255 255 / 0.04), transparent 70%);
+  color: var(--color-chalk);
+}
+
+.donation-band a {
+  color: var(--color-butter);
+}
+
+.donation-band__inner {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.donation-band__title {
+  font-size: var(--text-xl);
+  color: var(--color-butter);
+}
+
+.donation-band__intro p {
+  color: var(--color-chalk-soft);
+  font-size: var(--text-md);
+  max-width: 38ch;
+}
+
+.donation-band__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.donation-band__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-variation-settings: "SOFT" 100;
+}
+
+/* Dotted leader between label and amount */
+.donation-band__label {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.donation-band__label::after {
+  content: "";
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 2px dotted rgb(243 237 224 / 0.45);
+  transform: translateY(-0.25em);
+}
+
+.donation-band__amount {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* The row that goes to fighting food insecurity, chalked in butter */
+.donation-band__row--highlight {
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-butter);
+  border-radius: var(--radius-md);
+  color: var(--color-butter);
+  font-weight: 600;
+}
+.donation-band__row--highlight .donation-band__label::after {
+  border-bottom-color: rgb(242 193 78 / 0.55);
+}
+
+.donation-band__note {
+  margin: var(--space-4) 0 0;
+  font-size: var(--text-sm);
+  color: var(--color-chalk-soft);
+}
+
+@media (min-width: 65em) {
+  .donation-band__inner {
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: var(--space-8);
+  }
+  .donation-band__row {
+    font-size: 1.5rem;
+  }
+}
+
+
+/* ==========================================================================
+   16. STORY PROSE AND TEAM PHOTO
+   <div class="prose"> ...normal <p>, <h2>, <h3>, <ul>, <blockquote>... </div>
+   Keeps lines to a comfortable reading width.
+
+   <figure class="team-photo">
+     <img src="..." alt="...">
+     <figcaption class="team-photo__caption">Names, left to right...</figcaption>
+   </figure>
+   ========================================================================== */
+
+.prose {
+  max-width: var(--measure);
+  font-size: var(--text-md);
+  line-height: 1.7;
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+.prose p,
+.prose ul,
+.prose ol {
+  margin-bottom: 0;
+}
+
+.prose h2 {
+  margin-top: var(--space-7);
+  font-size: var(--text-xl);
+  color: var(--color-herb);
+}
+.prose h3 {
+  margin-top: var(--space-6);
+  font-size: var(--text-lg);
+}
+.prose h2 + *,
+.prose h3 + * {
+  margin-top: var(--space-2);
+}
+
+/* First paragraph is a little bigger, to ease people in */
+.prose > p:first-child {
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.4rem);
+  line-height: 1.55;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+.prose li + li {
+  margin-top: var(--space-2);
+}
+.prose li::marker {
+  color: var(--color-tomato);
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding: var(--space-2) 0 var(--space-2) var(--space-5);
+  border-left: 4px solid var(--color-butter);
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  font-variation-settings: "SOFT" 100;
+  line-height: 1.4;
+  color: var(--color-herb);
+}
+
+.prose img {
+  border-radius: var(--radius-md);
+}
+
+.team-photo {
+  max-width: 60rem;
+  margin: var(--space-7) auto;
+}
+
+.team-photo img,
+.team-photo .img-placeholder {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.team-photo__caption {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+  text-align: center;
+  text-wrap: balance;
+}
+
+
+/* ==========================================================================
+   17. BOOKING FORM
+   <form class="form" action="..." method="post">
+     <div class="field">
+       <label class="field__label" for="name">Your name</label>
+       <input class="field__input" id="name" name="name" type="text" autocomplete="name" required>
+     </div>
+     <div class="field">
+       <label class="field__label" for="class">Class</label>
+       <select class="field__input" id="class" name="class"> <option>...</option> </select>
+     </div>
+     <div class="field">
+       <label class="field__label" for="notes">Allergies or notes <span class="field__optional">(optional)</span></label>
+       <textarea class="field__input" id="notes" name="notes"></textarea>
+       <p class="field__hint">Short helper text</p>
+     </div>
+     <fieldset class="field field--group">
+       <legend class="field__label">Dietary needs</legend>
+       <label class="checkbox-row"><input type="checkbox" name="diet" value="Vegetarian"> Vegetarian</label>
+     </fieldset>
+     <button class="btn btn--book btn--block" type="submit">Book my spot</button>
+   </form>
+
+   ERROR STATE: add .field--error to the .field, aria-invalid="true" to the
+   input, and a message: <p class="field__error" id="email-error">...</p>
+   (link it with aria-describedby="email-error" on the input).
+   .field-row puts two fields side by side on wider screens.
+   ========================================================================== */
+
+.form {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 40rem;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-card);
+}
+
+@media (min-width: 45em) {
+  .form {
+    padding: var(--space-6);
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field-row {
+  display: grid;
+  gap: var(--space-5);
+}
+@media (min-width: 45em) {
+  .field-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field__label {
+  padding: 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.field__optional {
+  font-weight: 400;
+  color: var(--color-ink-soft);
+}
+
+.field__hint {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+/* Text inputs, email, tel, number, date, select and textarea */
+.field__input {
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid var(--color-field-border);
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 1rem; /* 16px stops iPhones zooming in on tap */
+  line-height: 1.4;
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--speed-fast);
+  transition-timing-function: var(--ease-out);
+}
+
+.field__input::placeholder {
+  color: #7A7266; /* 4.74:1 on white */
+}
+
+.field__input:hover {
+  border-color: var(--color-ink-soft);
+}
+
+.field__input:focus-visible,
+.field__input:focus {
+  outline: none;
+  border-color: var(--color-herb);
+  box-shadow: 0 0 0 3px var(--color-paper), 0 0 0 5px var(--color-herb);
+}
+
+textarea.field__input {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
+/* Custom arrow for dropdowns */
+select.field__input {
+  appearance: none;
+  padding-right: 2.75rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%232F5D3A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  background-size: 1rem;
+  cursor: pointer;
+}
+
+/* Date picker: keep it full height and tidy across browsers */
+input[type="date"].field__input {
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 0;
+}
+input[type="date"].field__input::-webkit-date-and-time-value {
+  text-align: left;
+}
+input[type="date"].field__input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* --- Checkbox and radio rows: the whole row is tappable --- */
+.field--group {
+  gap: var(--space-1);
+}
+.field--group .field__label {
+  margin-bottom: var(--space-1);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-1) var(--space-2);
+  margin-inline: calc(-1 * var(--space-2));
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  line-height: 1.4;
+  transition: background-color var(--speed-fast) var(--ease-out);
+}
+.checkbox-row:hover {
+  background: var(--color-cream);
+}
+
+.checkbox-row input {
+  flex-shrink: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin: 0;
+  accent-color: var(--color-herb);
+  cursor: pointer;
+}
+
+/* --- Error state --- */
+.field__error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-error);
+}
+/* small "!" badge so the error isn't shown by color alone */
+.field__error::before {
+  content: "!";
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+  background: var(--color-error);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.field--error .field__input,
+.field__input[aria-invalid="true"] {
+  border-color: var(--color-error);
+  border-width: 2px;
+}
+.field--error .field__input:focus,
+.field__input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px var(--color-paper), 0 0 0 5px var(--color-error);
+}
+
+/* Summary box at the top of the form when there are errors */
+.form__alert {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid var(--color-error);
+  border-radius: var(--radius-sm);
+  background: #FBE9E5;
+  color: var(--color-ink);
+}
+
+.form__note {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+
+/* ==========================================================================
+   18. THANK-YOU PAGE
+   <section class="thank-you">
+     <div class="thank-you__card">
+       <div class="thank-you__icon" aria-hidden="true"> (svg check) </div>
+       <h1 class="thank-you__title">You're booked.</h1>
+       <p class="thank-you__text">...</p>
+       <div class="btn-row"> ... </div>
+     </div>
+   </section>
+   ========================================================================== */
+
+.thank-you {
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+  padding: var(--section-space) var(--gutter);
+}
+
+.thank-you__card {
+  max-width: 34rem;
+  padding: var(--space-7) var(--space-5);
+  border-radius: var(--radius-xl);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-raised);
+  text-align: center;
+}
+
+.thank-you__icon {
+  display: grid;
+  place-items: center;
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto var(--space-5);
+  border-radius: 50%;
+  background: var(--color-butter);
+  color: var(--color-herb);
+}
+.thank-you__icon svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.thank-you__title {
+  font-size: var(--text-xl);
+  color: var(--color-herb);
+}
+
+.thank-you__text {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-md);
+  color: var(--color-ink-soft);
+}
+
+.thank-you .btn-row {
+  justify-content: center;
+}
+
+
+/* ==========================================================================
+   19. SITE FOOTER
+   <footer class="site-footer">
+     <div class="site-footer__inner container">
+       <p class="site-footer__tagline">...</p>
+       <ul class="site-footer__links">
+         <li><a class="site-footer__social" href="https://instagram.com/..." aria-label="Instagram">(svg)</a></li>
+         <li><a href="mailto:...">hello@example.org</a></li>
+       </ul>
+       <p class="site-footer__small">...</p>
+     </div>
+   </footer>
+   ========================================================================== */
+
+.site-footer {
+  --color-focus: var(--color-butter);
+  padding-block: var(--space-7) var(--space-6);
+  background: var(--color-chalkboard);
+  color: var(--color-chalk);
+}
+
+.site-footer a {
+  color: var(--color-chalk);
+}
+.site-footer a:hover {
+  color: var(--color-butter);
+}
+
+.site-footer__inner {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.site-footer__tagline {
+  max-width: 22ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  font-variation-settings: "SOFT" 100;
+  line-height: 1.25;
+  color: var(--color-butter);
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Round Instagram button */
+.site-footer__social {
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1.5px rgb(243 237 224 / 0.35);
+  transition-property: box-shadow, color;
+  transition-duration: var(--speed-fast);
+  transition-timing-function: var(--ease-out);
+}
+.site-footer__social:hover {
+  box-shadow: inset 0 0 0 1.5px var(--color-butter);
+}
+.site-footer__social svg {
+  width: 22px;
+  height: 22px;
+}
+
+.site-footer__small {
+  margin: 0;
+  padding-top: var(--space-5);
+  border-top: 1px solid rgb(243 237 224 / 0.15);
+  font-size: var(--text-sm);
+  color: var(--color-chalk-soft);
+}
+
+@media (min-width: 45em) {
+  .site-footer__inner {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+  .site-footer__small {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* ==========================================================================
+   20. UTILITIES
+   ========================================================================== */
+
+/* Hide visually but keep for screen readers (e.g. extra link text) */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* "Skip to content" link, first thing in <body>, appears on keyboard focus */
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -100px;
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-butter);
+  color: var(--color-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+.text-center { text-align: center; }
+
+/* Plain colored box that stands in for a photo while one isn't ready */
+.img-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: var(--color-herb-tint);
+}
+
+
+/* ==========================================================================
+   21. REDUCED MOTION
+   If someone has asked their device for less motion, switch it off.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:active {
+    transform: none;
+  }
+}
+
+
+/* ==========================================================================
+   22. SITE ADDITIONS (added when the real pages were built)
+   ========================================================================== */
+
+/* --- Photo-less card header ------------------------------------------------
+   Use instead of a photo when a card has none yet:
+   <div class="card__img card__img--panel" aria-hidden="true">
+     <span class="card__panel-label">Burrito Bowls</span>
+   </div>
+   Color options: add --tomato, --butter or --herb (default is light green).
+   When a real photo is ready, swap the whole <div> for:
+   <img class="card__img" src="images/your-photo.jpg" alt="..." width="..." height="..." loading="lazy">
+   -------------------------------------------------------------------------- */
+.card__img--panel {
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  background-color: var(--color-herb-tint);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgb(47 93 58 / 0.14) 1.5px, transparent 0);
+  background-size: 18px 18px;
+  color: var(--color-herb);
+  text-align: center;
+}
+.card__img--tomato {
+  background-color: var(--color-tomato-tint);
+  background-image: radial-gradient(circle at 1px 1px, rgb(192 74 47 / 0.14) 1.5px, transparent 0);
+  color: var(--color-tomato-dark);
+}
+.card__img--butter {
+  background-color: var(--color-butter-tint);
+  background-image: radial-gradient(circle at 1px 1px, rgb(150 110 20 / 0.16) 1.5px, transparent 0);
+  color: var(--color-ink);
+}
+.card__img--herb {
+  background-color: var(--color-herb);
+  background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.12) 1.5px, transparent 0);
+  color: var(--color-butter);
+}
+.card__panel-label {
+  max-width: 12ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.4rem);
+  font-weight: 600;
+  font-style: italic;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* Small print under a class description (allergens, label checks) */
+.card__fine {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-ink-soft);
+}
+
+/* Teaser cards on the home page: the whole title is a link */
+.card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+.card__title a:hover {
+  text-decoration: underline;
+}
+
+/* --- Gallery with three photos -------------------------------------------
+   <div class="gallery gallery--three"> ... three .gallery__item ... </div>
+   Phones: first photo wide, two squares under it. 720px+: three in a row.
+   Add .gallery--small for a narrower strip of tall photos.
+   -------------------------------------------------------------------------- */
+.gallery--three > .gallery__item:first-child {
+  grid-column: span 2;
+}
+.gallery--three > .gallery__item:first-child img {
+  aspect-ratio: 2 / 1;
+}
+@media (min-width: 45em) {
+  .gallery--three {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .gallery--three > .gallery__item:first-child {
+    grid-column: auto;
+  }
+  .gallery--three > .gallery__item:first-child img {
+    aspect-ratio: 1 / 1;
+  }
+}
+.gallery--small {
+  max-width: 52rem;
+}
+.gallery--small .gallery__item img {
+  aspect-ratio: 4 / 5;
+}
+.gallery--small > .gallery__item:first-child img {
+  aspect-ratio: 4 / 5;
+}
+.gallery--small.gallery--three > .gallery__item:first-child {
+  grid-column: auto;
+}
+.gallery--small.gallery--three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.subheading {
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+  color: var(--color-herb);
+}
+
+/* --- Story signature with Zoe's portrait --- */
+.signature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+.signature__img {
+  flex-shrink: 0;
+  width: 96px;
+  height: 120px;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+}
+.signature__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-style: italic;
+  font-variation-settings: "SOFT" 100;
+  color: var(--color-herb);
+}
+
+/* --- Price line under a page intro --- */
+.price-line {
+  display: inline-block;
+  margin: var(--space-4) 0 0;
+  padding: var(--space-1) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--color-butter-tint);
+  font-weight: 600;
+}
+
+/* Line of text under a card grid */
+.after-grid {
+  max-width: 40rem;
+  margin: var(--space-6) 0 0;
+  font-size: var(--text-md);
+  color: var(--color-ink-soft);
+}
+
+/* --- Footer Instagram link: round icon plus the handle --- */
+.site-footer__ig {
+  gap: var(--space-2);
+}
+.site-footer__ig svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------------
+   Linked cards: when a card's title is a link, the whole card is
+   clickable (big tap target on phones).
+   ------------------------------------------------------------------ */
+.card:has(.card__title a) { position: relative; }
+.card__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.card__title a:focus-visible::after {
+  outline: 3px solid var(--color-butter);
+  outline-offset: 2px;
+}
+
+/* Home page: the four link cards sit in one row on wide screens */
+@media (min-width: 1040px) {
+  .card-grid--four { grid-template-columns: repeat(4, 1fr); }
+}

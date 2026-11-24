@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classes | More Than a Meal</title>
+  <meta name="description" content="Hands-on, beginner-friendly cooking classes for UVA groups. Six meal prep recipes, $14 per person for groups of 6 or more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Fraunces:opsz,wght,SOFT@9..144,400..800,0..100&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ SITE HEADER (same on every page) ============ -->
+  <header class="site-header">
+    <div class="site-header__inner container">
+      <a class="wordmark" href="index.html">
+        <span class="wordmark__line">More Than</span>
+        <span class="wordmark__line">a Meal</span>
+      </a>
+      <nav class="nav" id="site-nav" aria-label="Main">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="index.html">Home</a></li>
+          <li><a class="nav__link" href="story.html">Our story</a></li>
+          <li><a class="nav__link" href="classes.html" aria-current="page">Classes</a></li>
+          <li><a class="nav__link" href="teachers.html">Teachers</a></li>
+          <li><a class="nav__link" href="farms.html">Farms</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn--book btn--small site-header__book" href="book.html">Book a class</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <h1 class="section__title">Classes</h1>
+          <p class="section__intro">Every class is hands-on and beginner-friendly. Pick a recipe, bring your group, and go home with food for the week.</p>
+          <p class="price-line">$14 per person · groups of 6+</p>
+        </div>
+        <div class="card-grid">
+
+          <!-- CLASS CARD: copy this whole block (from <article> to </article>) to add a class.
+               Also add the class name to the "Which recipe?" list in book.html. -->
+          <article class="card card--class">
+            <img class="card__img" src="images/lemon-chicken-orzo.jpg" alt="One pot lemon chicken orzo in a blue dutch oven, topped with seared chicken, lemon slices and crumbled cheese." width="900" height="1200" loading="lazy" style="object-position: center 60%;">
+            <div class="card__body">
+              <h2 class="card__title">One Pot Lemon Chicken Orzo</h2>
+              <p class="card__text">Seared chicken thighs, toasted orzo, zucchini and peppers, baked in one pot with lemon and Boursin cheese. Serves 4 and doubles easily, with only one pot to wash.</p>
+              <p class="card__fine">Contains wheat and dairy. The white wine can be swapped for more chicken broth.</p>
+              <div class="class-card__buy">
+                <p class="price">$14 <span class="price__note">per person · groups of 6+</span></p>
+                <a class="btn btn--book" href="book.html?class=One%20Pot%20Lemon%20Chicken%20Orzo">Book this class<span class="visually-hidden">: One Pot Lemon Chicken Orzo</span></a>
+              </div>
+            </div>
+          </article>
+          <!-- END CLASS CARD -->
+
+          <!-- CLASS CARD: copy this whole block (from <article> to </article>) to add a class.
+               Also add the class name to the "Which recipe?" list in book.html. -->
+          <article class="card card--class">
+            <div class="card__img card__img--panel" aria-hidden="true"><span class="card__panel-label">White Bean Chicken Chili</span></div>
+            <div class="card__body">
+              <ul class="tags" aria-label="Dietary info">
+                <li class="tag tag--gf">Gluten free*</li>
+                <li class="tag">Freezes well</li>
+              </ul>
+              <h2 class="card__title">White Bean Chicken Chili</h2>
+              <p class="card__text">A creamy chili with ground chicken, white beans, corn, green chilis and lime, finished with a topping bar. Serves 6 to 8 and freezes well, so it lasts you the whole week.</p>
+              <p class="card__fine">*Check your broth label, and skip the bread or use gluten-free bread. Contains dairy.</p>
+              <div class="class-card__buy">
+                <p class="price">$14 <span class="price__note">per person · groups of 6+</span></p>
+                <a class="btn btn--book" href="book.html?class=White%20Bean%20Chicken%20Chili">Book this class<span class="visually-hidden">: White Bean Chicken Chili</span></a>
+              </div>
+            </div>
+          </article>
+          <!-- END CLASS CARD -->
+
+          <!-- CLASS CARD: copy this whole block (from <article> to </article>) to add a class.
+               Also add the class name to the "Which recipe?" list in book.html. -->
+          <article class="card card--class">
+            <div class="card__img card__img--panel card__img--tomato" aria-hidden="true"><span class="card__panel-label">Marry Me Chicken</span></div>
+            <div class="card__body">
+              <ul class="tags" aria-label="Dietary info">
+                <li class="tag tag--gf">Gluten free*</li>
+              </ul>
+              <h2 class="card__title">Marry Me Chicken</h2>
+              <p class="card__text">Golden chicken breasts baked in a creamy sauce with sun-dried tomatoes, zucchini, Parmesan and fresh basil. The recipe makes four chicken breasts. Serve it with pasta or potatoes.</p>
+              <p class="card__fine">*Check your broth label, and serve with potatoes instead of pasta. Contains dairy.</p>
+              <div class="class-card__buy">
+                <p class="price">$14 <span class="price__note">per person · groups of 6+</span></p>
+                <a class="btn btn--book" href="book.html?class=Marry%20Me%20Chicken">Book this class<span class="visually-hidden">: Marry Me Chicken</span></a>
+              </div>
+            </div>
+          </article>
+          <!-- END CLASS CARD -->
+
+          <!-- CLASS CARD: copy this whole block (from <article> to </article>) to add a class.
+               Also add the class name to the "Which recipe?" list in book.html. -->
+          <article class="card card--class">
+            <div class="card__img card__img--panel card__img--butter" aria-hidden="true"><span class="card__panel-label">Burrito Bowls</span></div>
+            <div class="card__body">
+              <ul class="tags" aria-label="Dietary info">
+                <li class="tag tag--gf">Gluten free*</li>
+                <li class="tag tag--veg">Vegetarian option</li>
+                <li class="tag tag--df">Dairy-free option</li>
+              </ul>
+              <h2 class="card__title">Burrito Bowls</h2>
+              <p class="card__text">Build-your-own bowls with cilantro lime rice, seasoned black beans, chicken or ground beef, fajita veggies, homemade guacamole and corn salsa. Make each part once and build bowls all week.</p>
+              <p class="card__fine">*Check the labels on your salsa and hot sauce. For vegetarian, skip the meat. For dairy-free, skip the cheese and sour cream.</p>
+              <div class="class-card__buy">
+                <p class="price">$14 <span class="price__note">per person · groups of 6+</span></p>
+                <a class="btn btn--book" href="book.html?class=Burrito%20Bowls">Book this class<span class="visually-hidden">: Burrito Bowls</span></a>
+              </div>
+            </div>
+          </article>
+          <!-- END CLASS CARD -->
+
+          <!-- CLASS CARD: copy this whole block (from <article> to </article>) to add a class.
+               Also add the class name to the "Which recipe?" list in book.html. -->
+          <article class="card card--class">
+            <div class="card__img card__img--panel card__img--herb" aria-hidden="true"><span class="card__panel-label">Vodka-less Pasta</span></div>
+            <div class="card__body">
+              <ul class="tags" aria-label="Dietary info">
+                <li class="tag tag--veg">Vegetarian*</li>
+              </ul>
+              <h2 class="card__title">Vodka-less Pasta</h2>
+              <p class="card__text">A creamy tomato pasta with garlic, onion, Parmesan and a little red pepper heat. Ready in about 20 minutes and serves 4, so you can double it for the week.</p>
+              <p class="card__fine">Contains wheat and dairy. *Most Parmesan is made with animal rennet. Use a vegetarian hard cheese if that matters to you.</p>
+              <div class="class-card__buy">
+                <p class="price">$14 <span class="price__note">per person · groups of 6+</span></p>
+                <a class="btn btn--book" href="book.html?class=Vodka-less%20Pasta">Book this class<span class="visually-hidden">: Vodka-less Pasta</span></a>
+              </div>
+            </div>
+          </article>
+          <!-- END CLASS CARD -->
+
+          <!-- CLASS CARD: copy this whole block (from <article> to </article>) to add a class.
+               Also add the class name to the "Which recipe?" list in book.html. -->
+          <article class="card card--class">
+            <div class="card__img card__img--panel card__img--tomato" aria-hidden="true"><span class="card__panel-label">Hot Honey Shrimp</span></div>
+            <div class="card__body">
+              <ul class="tags" aria-label="Dietary info">
+                <li class="tag tag--gf">Gluten free*</li>
+              </ul>
+              <h2 class="card__title">Hot Honey Shrimp</h2>
+              <p class="card__text">Sweet and spicy honey garlic shrimp over rice with roasted veggies. It comes together in about 20 minutes, so it's an easy one to make every week for meal prep.</p>
+              <p class="card__fine">*Check your hot sauce or chili crisp label. Contains shellfish.</p>
+              <div class="class-card__buy">
+                <p class="price">$14 <span class="price__note">per person · groups of 6+</span></p>
+                <a class="btn btn--book" href="book.html?class=Hot%20Honey%20Shrimp">Book this class<span class="visually-hidden">: Hot Honey Shrimp</span></a>
+              </div>
+            </div>
+          </article>
+          <!-- END CLASS CARD -->
+
+        </div>
+        <p class="after-grid">Have a dietary need or a recipe in mind? Tell us when you book and we'll work with you.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ SITE FOOTER (same on every page) ============ -->
+  <footer class="site-footer">
+    <div class="site-footer__inner container">
+      <p class="site-footer__tagline">Cooking classes for students, by students. Charlottesville, VA.</p>
+      <ul class="site-footer__links">
+        <li>
+          <!-- INSTAGRAM: change the link and the handle text here (on every page) -->
+          <a class="site-footer__ig" href="https://www.instagram.com/morethanameal.uva/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.75" fill="currentColor" stroke="none"/></svg>
+            <span><span class="visually-hidden">Instagram: </span>@morethanameal.uva</span>
+          </a>
+        </li>
+        <li><a href="mailto:aff3ua@virginia.edu">aff3ua@virginia.edu</a></li>
+      </ul>
+      <p class="site-footer__small">$14 per person · groups of 6+</p>
+    </div>
+  </footer>
+
+  <!-- ============ MOBILE BOOK BAR (phones only) ============ -->
+  <div class="mobile-book-bar">
+    <p class="mobile-book-bar__text">$14 per person · groups of 6+</p>
+    <a class="btn btn--book" href="book.html">Book a class</a>
+  </div>
+</body>
+</html>
