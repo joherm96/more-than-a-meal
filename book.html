@@ -49,13 +49,10 @@
           <p class="price-line">$14 per person · groups of 6+</p>
         </div>
 
-        <!-- BOOKING FORM: requests are emailed to the address in action="..." below (via FormSubmit). -->
-        <form class="form" action="https://formsubmit.co/aff3ua@virginia.edu" method="POST">
-          <input type="hidden" name="_subject" value="New More Than a Meal booking request">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="https://more-than-a-meal.vercel.app/thanks.html">
-          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <!-- BOOKING FORM: when someone taps "Send request", their email app opens with
+             a message to the address in data-email="..." below, already filled in
+             with their answers. To change where requests go, change data-email. -->
+        <form class="form" id="booking-form" data-email="aff3ua@virginia.edu" action="#">
 
           <div class="field-row">
             <div class="field">
@@ -122,6 +119,7 @@
           </div>
 
           <button class="btn btn--book btn--block" type="submit">Send request</button>
+          <p class="field__hint" id="booking-status" role="status" aria-live="polite">Tapping the button opens your email app with your request filled in. Just hit send.</p>
         </form>
       </div>
     </section>

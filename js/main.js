@@ -13,6 +13,7 @@ document.documentElement.classList.add("js");
 document.addEventListener("DOMContentLoaded", function () {
   setUpMenu();
   preselectClass();
+  setUpBookingEmail();
 });
 
 
@@ -100,4 +101,59 @@ function preselectClass() {
 
   match.selected = true;
   select.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+
+/* --- 3. Booking form: send the request by email ---------------------------
+   Needs: <form id="booking-form" data-email="you@example.com"> on book.html.
+   On submit, opens the visitor's email app with a message to data-email,
+   filled in with every answer from the form.                                */
+
+function setUpBookingEmail() {
+  var form = document.getElementById("booking-form");
+  if (!form) return;
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    window.location.href = buildBookingMailto(form);
+
+    var status = document.getElementById("booking-status");
+    if (status) {
+      status.textContent = "Your email app should be open with your request ready. Hit send and we'll get back to you soon. If nothing opened, email us at " + form.getAttribute("data-email") + ".";
+    }
+  });
+}
+
+function buildBookingMailto(form) {
+
+    var labelFor = function (field) {
+      var label = form.querySelector('label[for="' + field.id + '"]');
+      if (field.type === "checkbox" && field.name === "group_type") return "Type of group";
+      return label ? label.textContent.trim() : field.name;
+    };
+
+    var lines = [];
+    var groupTypes = [];
+    Array.prototype.forEach.call(form.elements, function (field) {
+      if (!field.name || field.type === "submit") return;
+      if (field.type === "checkbox") {
+        if (!field.checked) return;
+        if (field.name === "group_type") { groupTypes.push(field.value); return; }
+        lines.push(labelFor(field));
+        return;
+      }
+      var value = (field.value || "").trim();
+      if (!value) return;
+      lines.push(labelFor(field).replace(/\?$/, "") + ": " + value);
+    });
+    if (groupTypes.length) lines.push("Type of group: " + groupTypes.join(", "));
+
+    var name = (form.elements.name && form.elements.name.value.trim()) || "";
+    var subject = "Class booking request" + (name ? " from " + name : "");
+    var body = "Hi! I'd like to book a More Than a Meal class.\n\n" + lines.join("\n");
+
+    return "mailto:" + form.getAttribute("data-email") +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
 }

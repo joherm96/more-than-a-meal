@@ -68,12 +68,11 @@ To remove a card, delete everything from its `<!--` comment line to its `END` li
 
 ## Change the booking email
 
-Booking requests are emailed through a free service called FormSubmit.
+When someone taps "Send request", their email app opens with a message to the booking address, already filled in with everything they typed. They hit send and it lands in that inbox. No outside service, nothing to activate.
 
 1. Open `book.html` and click the pencil icon.
-2. Find `action="https://formsubmit.co/aff3ua@virginia.edu"` and change the email at the end.
+2. Find `data-email="aff3ua@virginia.edu"` and change the address.
 3. Commit.
-4. Send yourself a test booking from the live site. **FormSubmit then sends a one-time activation email to the new address.** Click the link in it, or no bookings will arrive. (Check spam if you don't see it.)
 
 You may also want to change the email shown in the text and footer: search each page for `aff3ua@virginia.edu` and replace it (it appears on every page in the footer).
 
