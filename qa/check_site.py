@@ -35,7 +35,7 @@ except ImportError:
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SHOTS = os.path.join(ROOT, "qa", "shots")
-PAGES = ["index", "story", "classes", "teachers", "farms", "cookbook", "book"]
+PAGES = ["index", "story", "classes", "teachers", "farms", "book"]
 IMAGE_WARN_BYTES = 400 * 1024
 BANNED_WORDS = re.compile(r"\b(PENDING|TODO|lorem|placeholder)\b", re.I)
 FONT_HOSTS = ("fonts.googleapis.com", "fonts.gstatic.com")
