@@ -68,7 +68,13 @@ class QuietHandler(http.server.SimpleHTTPRequestHandler):
 
 def start_server():
     handler = functools.partial(QuietHandler, directory=ROOT)
-    httpd = http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler)
+    class QuietServer(http.server.ThreadingHTTPServer):
+        daemon_threads = True
+
+        def handle_error(self, request, client_address):
+            pass  # browser closing a connection mid-transfer (BrokenPipe) is not a site problem
+
+    httpd = QuietServer(("127.0.0.1", 0), handler)
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     return httpd, f"http://127.0.0.1:{httpd.server_address[1]}"
 
