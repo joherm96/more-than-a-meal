@@ -2109,3 +2109,5 @@ input[type="date"].field__input::-webkit-calendar-picker-indicator {
 }
 .cookbook-quote footer { font-size: 0.9rem; color: var(--color-ink-soft); }
 .cookbook-list { margin: 0; padding-left: 1.1rem; line-height: 1.7; }
+
+.prose .cookbook-quote { margin-block: var(--space-5); }
