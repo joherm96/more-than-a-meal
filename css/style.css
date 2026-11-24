@@ -2090,3 +2090,22 @@ input[type="date"].field__input::-webkit-calendar-picker-indicator {
 @media (min-width: 45em) {
   .gallery--small.gallery--four { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* --- Cookbook page ---------------------------------------------------------- */
+.cookbook-quote {
+  max-width: 44rem;
+  margin: 0 0 var(--space-5);
+  padding: var(--space-5);
+  border-left: 4px solid var(--color-butter);
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-card);
+}
+.cookbook-quote p { margin-bottom: var(--space-3); }
+.cookbook-quote__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--color-herb);
+}
+.cookbook-quote footer { font-size: 0.9rem; color: var(--color-ink-soft); }
+.cookbook-list { margin: 0; padding-left: 1.1rem; line-height: 1.7; }
