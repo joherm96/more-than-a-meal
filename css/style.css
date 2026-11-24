@@ -2081,3 +2081,12 @@ input[type="date"].field__input::-webkit-calendar-picker-indicator {
     font-size: 1rem;
   }
 }
+
+/* Four tall photos: two per row on phones, one row of four on wider screens */
+.gallery--small.gallery--four {
+  max-width: none;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 45em) {
+  .gallery--small.gallery--four { grid-template-columns: repeat(4, 1fr); }
+}
