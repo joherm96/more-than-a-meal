@@ -12,7 +12,6 @@ You don't need to know how to code. Every page is a plain file you can edit righ
 | Meet the teachers | `teachers.html` |
 | Farm partners | `farms.html` |
 | Book a class (the form) | `book.html` |
-| Thank-you page after booking | `thanks.html` |
 | Photos | the `images` folder |
 | Colors and fonts | `css/style.css` (you shouldn't need to touch this) |
 

@@ -35,7 +35,7 @@ except ImportError:
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SHOTS = os.path.join(ROOT, "qa", "shots")
-PAGES = ["index", "story", "classes", "teachers", "farms", "book", "thanks"]
+PAGES = ["index", "story", "classes", "teachers", "farms", "book"]
 IMAGE_WARN_BYTES = 400 * 1024
 BANNED_WORDS = re.compile(r"\b(PENDING|TODO|lorem|placeholder)\b", re.I)
 FONT_HOSTS = ("fonts.googleapis.com", "fonts.gstatic.com")
@@ -366,7 +366,7 @@ def test_interactions(ctx, base):
         r = page.goto(f"{base}/book.html", wait_until="load")
         if not r or r.status >= 400:
             raise RuntimeError("book.html did not load")
-        info = page.evaluate("""() => { const f = document.querySelector('form[action*="formsubmit"]') || document.querySelector('form');
+        info = page.evaluate("""() => { const f = document.querySelector('form');
           if (!f) return null;
           const g = n => { const e = f.querySelector(`[name="${n}"]`); if (!e) return null;
              const s = getComputedStyle(e);
@@ -381,23 +381,24 @@ def test_interactions(ctx, base):
                   required: f.querySelectorAll('[required]').length}; }""")
         if info is None:
             raise RuntimeError("no <form> on book.html")
+        # The form opens a prefilled email (mailto:) to the address in data-email.
+        mail = page.evaluate("""() => { const f = document.getElementById('booking-form');
+          if (!f || typeof buildBookingMailto !== 'function') return null;
+          const set = (n, val) => { const e = f.elements[n]; if (e) e.value = val; };
+          set('name', 'QA Check'); set('email', 'qa@example.com'); set('group_size', '6'); set('preferred_date', '2030-01-01');
+          const url = buildBookingMailto(f); f.reset(); return {email: f.dataset.email || '', url}; }""")
         probs = []
-        if not info["action"].startswith("https://formsubmit.co/"):
-            probs.append(f"action={info['action']!r}")
-        if info["method"] != "post":
-            probs.append(f"method={info['method']!r} (should be POST)")
-        if not info["honey"]:
-            probs.append("missing _honey field")
-        elif not info["honey"]["hidden"]:
-            probs.append("_honey field is visible")
-        if not info["next"]:
-            probs.append("missing _next field")
+        if not mail:
+            probs.append("no #booking-form or buildBookingMailto() missing")
         else:
-            if info["next"]["type"] != "hidden":
-                probs.append(f"_next type={info['next']['type']!r}")
-            if "thanks" not in (info["next"]["value"] or ""):
-                probs.append(f"_next value={info['next']['value']!r} (expected .../thanks.html)")
-        ok_or_fail(probs, "book", v, "form: formsubmit action, _honey, _next", info["action"])
+            if "@" not in mail["email"]:
+                probs.append(f"data-email={mail['email']!r}")
+            if not mail["url"].startswith("mailto:" + mail["email"] + "?"):
+                probs.append(f"mailto url={mail['url'][:80]!r}")
+            for needle in ("QA%20Check", "qa%40example.com", "Group%20size%3A%206"):
+                if needle not in mail["url"]:
+                    probs.append(f"email body missing {needle}")
+        ok_or_fail(probs, "book", v, "form: builds prefilled email", mail["email"] if mail else "")
 
         probs = []
         if info["required"] == 0:

@@ -383,6 +383,7 @@ img,
   line-height: 0.95;
   letter-spacing: -0.015em;
   text-decoration: none;
+  padding-block: 0.25rem; /* keeps the tap target 44px+ on phones */
 }
 .wordmark__line {
   display: block;
