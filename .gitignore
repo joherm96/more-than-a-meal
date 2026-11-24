@@ -3,3 +3,4 @@ source/
 .vercel
 .claude/
 qa/shots/
+.env*
